@@ -1,11 +1,11 @@
-/* public-box */
-.public-box{
+/* publicBox */
+.publicBox{
     box-shadow: 0 0 20px #aaa;
     background-color: #fff;
     padding: 0 25px;
-    header{
-        height: 50px;
-        line-height: 50px;
+    .header{
+        height: 49px;
+        line-height: 49px;
         font-size: 18px;
         border-bottom: 1px solid #dfe4ef;
         color: #0377ff;
@@ -19,6 +19,16 @@
             color: #fff;
             margin-top: 10px;
             margin-right: 10px;
+        }
+    }
+    .container{
+        padding: 40px 0;
+        height: calc(100% - 130px);
+        .hasVerticalSliderContent{
+            padding: 0 30px;
+            height: calc(100%);
+            width: calc(100% - 200px);
+            background-color: #f0f3fa;
         }
     }
 }

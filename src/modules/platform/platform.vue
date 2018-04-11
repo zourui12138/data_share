@@ -12,10 +12,10 @@
         </header>
         <section class="section clear">
             <nav class="nav fl">
-                <div class="current clear"><i class="fl"></i><span>共享平台节点服务器</span></div>
-                <div class="clear"><i class="fl"></i><span>数据区块链信息</span></div>
-                <div class="clear"><i class="fl"></i><span>区块链合约信息</span></div>
-                <div class="clear"><i class="fl"></i><span>区块链帐户管理</span></div>
+                <div class="clear" @click="href('node')" :class="{current : asideNodeNav}"><i class="fl"></i><span>共享平台节点服务器</span></div>
+                <div class="clear" @click="href('blockChainMsg')" :class="{current : asideBlockChainMsgNav}"><i class="fl"></i><span>数据区块链信息</span></div>
+                <div class="clear" @click="href('contract')" :class="{current : asideContractNav}"><i class="fl"></i><span>区块链合约信息</span></div>
+                <div class="clear" @click="href('userManage')" :class="{current : asideUserManageNav}"><i class="fl"></i><span>区块链帐户管理</span></div>
                 <div class="clear"><i class="fl"></i><span>数据共享平台数据集市</span></div>
                 <div class="clear"><i class="fl"></i><span>违约与异常态势</span></div>
                 <div class="clear"><i class="fl"></i><span>数据地图</span></div>
@@ -31,7 +31,36 @@
 
     export default {
         name: "platform",
-        components: {VuePerfectScrollbar}
+        components: {VuePerfectScrollbar},
+        data() {
+            return{
+                asideNodeNav: false,
+                asideBlockChainMsgNav: false,
+                asideContractNav: false,
+                asideUserManageNav: false
+            }
+        },
+        methods: {
+            initAsideNav() {
+                this.asideNodeNav = false;
+                this.asideBlockChainMsgNav = false;
+                this.asideContractNav = false;
+                this.asideUserManageNav = false;
+                switch (this.$route.name){
+                    case 'node' : this.asideNodeNav = true;break;
+                    case 'blockChainMsg' : this.asideBlockChainMsgNav = true;break;
+                    case 'contract' : this.asideContractNav = true;break;
+                    case 'userManage' : this.asideUserManageNav = true;break;
+                }
+            },
+            href(arg) {
+                this.$router.push({path : '/platform/'+arg});
+                this.initAsideNav();
+            }
+        },
+        mounted() {
+            this.initAsideNav();
+        }
     }
 </script>
 

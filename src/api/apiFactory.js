@@ -11,3 +11,7 @@ export const node_getNewEquipment = (id) => {
 };
 export const node_getJZNode = () => axios.post(api+'/node/getJZNode',{});
 export const node_getAllNode = () => axios.post(api+'/node/getAllTrueNode',{});
+// 数据区块连信息
+export const blockChainMsg_getShareData = () => axios.post(api+'/blockChainDataInfoData/getRecentlyShareDataContributionValueInfos',{
+    limit: {startNumber: 0, size: 20}
+});

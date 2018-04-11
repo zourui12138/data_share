@@ -1,10 +1,10 @@
 <template>
     <div class="clear">
         <div class="left fl">
-            <div class="top public-box">
-                <header class="clear"><span class="fl">GY</span>GY-604356</header>
+            <div class="left_top publicBox">
+                <header class="header clear"><span class="fl">GY</span>GY-{{currentEquipment.NODE_ID}}</header>
                 <ul>
-                    <li class="clear"><span class="fl">节点类型</span><b></b><i>{{currentEquipment.NODE_TYPE}}</i></li>
+                    <li class="clear"><span class="fl">节点类型</span><b></b><i>{{getNodeType(currentEquipment.NODE_TYPE)}}</i></li>
                     <li class="clear"><span class="fl">所在机房</span><b></b><i>{{currentEquipment.NODE_ADDR}}</i></li>
                     <li class="clear"><span class="fl">所属单位</span><b></b><i>{{currentEquipment.NODE_COMPANY}}</i></li>
                     <li class="clear"><span class="fl">节点IP</span><b></b><i>{{currentEquipment.NODE_IP}}</i></li>
@@ -15,8 +15,8 @@
                     <li class="clear"><span class="fl">操作系统</span><b></b><i>{{currentEquipment.OPERATE_SYS}}</i></li>
                 </ul>
             </div>
-            <div class="bottom public-box">
-                <header><span class="fl">新</span>新申请接入设备</header>
+            <div class="left_bottom publicBox">
+                <header class="header clear"><span class="fl">新</span>新申请接入设备</header>
                 <VuePerfectScrollbar class="newEquipment">
                     <ul>
                         <li v-for="i in newEquipments" :class="{current: currentEquipmentNode === i.NODE_ID}"><span>{{i.NODE_ID}}</span><b></b><i>{{i.NODE_COMPANY}}</i></li>
@@ -24,8 +24,8 @@
                 </VuePerfectScrollbar>
             </div>
         </div>
-        <div class="right fr public-box">
-            <header class="clear"><span class="fl"></span>区块同步态势</header>
+        <div class="right fr publicBox">
+            <header class="header clear"><span class="fl"></span>区块同步态势</header>
             <div class="chart" ref="chart"></div>
             <div class="title"><h1>当前记账节点</h1><p>{{JZNode.NODE_ID}}</p></div>
         </div>
@@ -38,7 +38,6 @@
     import { node_getJZNode } from "~/api/apiFactory"
     import { node_getAllNode } from "~/api/apiFactory"
     import 'echarts/map/js/china.js';
-    import planePath from '~/assets/img/platform/node/aa.png'
 
     export default {
         name: "node",
@@ -46,6 +45,7 @@
         data() {
             return{
                 currentEquipment: {
+                    NODE_ID: null,
                     NODE_TYPE: null,
                     NODE_ADDR: null,
                     NODE_COMPANY: null,
@@ -176,7 +176,7 @@
                         show: true,
                         period: 6,
                         trailLength: 0,
-                        symbol: planePath,
+                        symbol: 'image://static/img/aa.png',
                         symbolSize: 15
                     },
                     lineStyle: {
@@ -198,7 +198,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://src/assets/img/platform/node/IDC.png',
+                    symbol : 'image://static/img/IDC.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -223,7 +223,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://img/node/top.png',
+                    symbol : 'image://static/img/top.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -248,7 +248,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://img/node/small.png',
+                    symbol : 'image://static/img/small.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -273,7 +273,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://img/node/union.png',
+                    symbol : 'image://static/img/union.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -298,7 +298,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://img/node/volunteer.png',
+                    symbol : 'image://static/img/volunteer.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -323,7 +323,7 @@
                     rippleEffect: {
                         brushType: 'stroke'
                     },
-                    symbol : 'image://img/node/backbone.png',
+                    symbol : 'image://static/img/backbone.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -348,7 +348,7 @@
                     rippleEffect: {
                         brushType: 'fill'
                     },
-                    symbol : 'image://img/node/main.png',
+                    symbol : 'image://static/img/main.png',
                     symbolSize : 30,
                     label: {
                         normal: {
@@ -406,7 +406,7 @@
             margin: 0 10px;
             background-color: #0377ff;
         }
-        .top {
+        .left_top {
             height: 500px;
             margin-bottom: 30px;
             ul {
@@ -429,7 +429,7 @@
                 }
             }
         }
-        .bottom {
+        .left_bottom {
             height: 390px;
             font-size: 14px;
             .newEquipment{
