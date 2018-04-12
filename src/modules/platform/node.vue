@@ -467,19 +467,19 @@
         }
         .title {
             position: absolute;
-            top: 117px;
-            left: 20px;
+            top: 75px;
+            left: 40px;
             width: 150px;
             h1 {
                 font-size: 16px;
-                background-color: #ff6966;
+                background-color: #3ad296;
                 color: #fff;
                 height: 30px;
                 line-height: 30px;
                 text-align: center;
             }
             p {
-                color: #ff6966;
+                color: #3ad296;
                 text-align: center;
                 height: 50px;
                 line-height: 50px;

@@ -3,33 +3,35 @@
         <div class="left fl publicBox">
             <header class="header clear"><span class="fl"></span>原始数据备份</header>
             <section class="container">
-                <HorizontalSlider :sliderImg="sliderImg"/>
+                <div class="slider">
+                    <div>
+                        <ul class="clear" :style="containerWidth">
+                            <li
+                                v-animate="{
+                                    index: index,
+                                    len: dataList.length,
+                                    distance: 130,
+                                    callback : toggleData,
+                                    id : i.ID
+                                }"
+                                :class="{current : index === 0}"
+                                class="fl"
+                                v-for="(i,index) in dataList">
+                                <img src="../../assets/img/platform/share/sliderImg.png" alt=""><p>{{i.COMPANY_NAME}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <b class="left_icon"></b>
+                    <b class="right_icon"></b>
+                </div>
                 <div class="shareDetail clear">
                     <ul class="file fl">
-                        <li><h1>文件</h1><i></i><s></s><h2></h2></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
+                        <li><h1>文件</h1><i @click="prevFileList"></i><s @click="nextFileList"></s></li>
+                        <li v-for="i in fileDataList"><b class="fl"></b><span>{{i.DATA_NAME}}</span><button class="fr" type="button">{{i.REAL_NAME}}</button></li>
                     </ul>
                     <ul class="API fl">
-                        <li><h1>API</h1><i></i><s></s><h2></h2></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
-                        <li><b class="fl"></b><span>危险货物运输企业基本情况表</span><button class="fr" type="button">王**</button></li>
+                        <li><h1>API</h1><i @click="prevApiList"></i><s @click="nextApiList"></s></li>
+                        <li v-for="i in apiDataList"><b class="fl"></b><span>{{i.DATA_NAME}}</span><button class="fr" type="button">{{i.REAL_NAME}}</button></li>
                     </ul>
                 </div>
             </section>
@@ -46,16 +48,101 @@
 </template>
 
 <script>
-    import HorizontalSlider from '~/component/horizontalSlider'
-    import sliderImg from '~/assets/img/platform/share/sliderImg.png'
+    import { share_getDataList } from '~/api/apiFactory'
+    import { share_getBarData } from '~/api/apiFactory'
+    import { share_getLineData } from '~/api/apiFactory'
+    import { share_getFileList } from '~/api/apiFactory'
+    import { share_getApiList } from '~/api/apiFactory'
 
     export default {
         name: "share",
-        components: {HorizontalSlider},
         data() {
             return{
-                sliderImg: sliderImg
+                dataList: null,
+                barData: null,
+                lineData: null,
+                fileDataList: null,
+                apiDataList: null,
+                currentDataId: 1,
+                fileDataPage: 1,
+                fileDataTotalPage: null,
+                apiDataPage: 1,
+                apiDataTotalPage: null
             }
+        },
+        computed: {
+            containerWidth() {return this.dataList && {width : this.dataList.length*130+'px'};}
+        },
+        methods: {
+            async getDataList() {
+                let data = await share_getDataList();
+                this.dataList = data.data.data;
+                this.currentDataId = this.dataList[0].ID;
+                this.getFileList();
+                this.getApiList();
+            },
+            async getBarData() {
+                let data = await share_getBarData();
+                this.barData = data.data.data;
+            },
+            async getLineData() {
+                let data = await share_getLineData();
+                this.lineData = data.data.data;
+            },
+            async getFileList() {
+                let data = await share_getFileList(this.currentDataId,this.fileDataPage);
+                this.fileDataList = data.data.data;
+                this.fileDataTotalPage = Math.ceil(data.data.total/10);
+            },
+            async getApiList() {
+                let data = await share_getApiList(this.currentDataId,this.apiDataPage);
+                this.apiDataList = data.data.data;
+                this.apiDataTotalPage = Math.ceil(data.data.total/10);
+            },
+            nextFileList() {
+                if(this.fileDataPage < this.fileDataTotalPage){
+                    this.fileDataPage++;
+                    this.getFileList();
+                }else{
+                    console.log(123);
+                }
+            },
+            prevFileList() {
+                if(this.fileDataPage > 1){
+                    this.fileDataPage--;
+                    this.getFileList();
+                }else{
+                    console.log(123);
+                }
+            },
+            nextApiList() {
+                if(this.apiDataPage < this.apiDataTotalPage){
+                    this.apiDataPage++;
+                    this.getApiList();
+                }else{
+                    console.log(123);
+                }
+            },
+            prevApiList() {
+                if(this.apiDataPage > 1){
+                    this.apiDataPage--;
+                    this.getApiList();
+                }else{
+                    console.log(123);
+                }
+            },
+            toggleData(id) {
+                this.currentDataId = id;
+                this.fileDataPage = 1;
+                this.apiDataPage = 1;
+                this.getFileList();
+                this.getApiList();
+            }
+        },
+        mounted() {
+            this.getDataList();
+            this.getBarData();
+            this.getLineData();
         }
     }
 </script>
@@ -64,6 +151,59 @@
     .left{
         height: 920px;
         width: calc(100% - 580px);
+        .slider{
+            height: 130px;
+            background-color: #3689e6;
+            position: relative;
+            div{
+                width: 910px;
+                height: 100px;
+                margin: auto;
+                padding: 15px 0;
+                overflow: hidden;
+                position: relative;
+                ul{
+                    position: absolute;
+                    top: 15px;
+                    left: 0;
+                    li{
+                        width: 100px;
+                        height: 100px;
+                        text-align: center;
+                        color: #fff;
+                        cursor: pointer;
+                        margin: 0 15px;
+                        border-radius: 4px;
+                        img{
+                            vertical-align: top;
+                            margin-top: 5px;
+                            p{
+                                height: 30px;
+                                line-height: 30px;
+                            }
+                        }
+                    }
+                    li:hover,li.current{
+                        background-color: #2e68a9;
+                    }
+                }
+            }
+            b{
+                position: absolute;
+                width: 24px;
+                height: 48px;
+                top: calc(50% - 24px);
+                cursor: pointer;
+            }
+            b.left_icon{
+                background: url('../../assets/img/platform/share/left.png') no-repeat center;
+                left: 18px;
+            }
+            b.right_icon{
+                background: url('../../assets/img/platform/share/right.png') no-repeat center;
+                right: 18px;
+            }
+        }
         .shareDetail{
             margin-top: 31px;
             height: 629px;

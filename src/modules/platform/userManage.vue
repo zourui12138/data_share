@@ -2,42 +2,83 @@
     <div class="userManage publicBox">
         <header class="header clear"><span class="fl"></span>区块链帐户详情</header>
         <section class="container clear">
-            <VerticalSlider class="fl" :sliderImg="sliderImg"/>
+            <div class="verticalSlider fl">
+                <div>
+                    <ul>
+                        <li
+                            v-vertical-animate="{
+                                    index: index,
+                                    len: userList.length,
+                                    distance: 140,
+                                    callback : toggleData,
+                                    id : i.ID
+                                }"
+                            :class="{current : index === 0}"
+                            v-for="(i,index) in userList">
+                            <h1><span>{{i.USERNAME}}</span></h1>
+                        </li>
+                    </ul>
+                    <h2></h2>
+                </div>
+                <b class="top_icon"></b>
+                <b class="bottom_icon"></b>
+            </div>
             <div class="hasVerticalSliderContent fl">
-                <ul class="left fl">
-                    <li><h3>公开信息</h3></li>
-                    <li class="clear"><span class="fl">公钥指纹</span><i class="fl"></i></li>
-                    <li class="clear"><span class="fl">系统评分</span><div class="fl"><h1></h1></div><strong class="fl"></strong></li>
-                    <li class="clear"><span class="fl">数据共享次</span><i class="fl">次</i></li>
-                    <li class="clear"><span class="fl">数据共享总量</span><i class="fl">GB</i></li>
-                    <li class="clear"><span class="fl">履约次数</span><i class="fl">次</i></li>
-                    <li class="clear"><span class="fl">违约次数</span><i class="fl">次</i></li>
-                    <li style="margin-top: 20px"><h3>可公开信息</h3></li>
-                    <li class="clear"><span class="fl">姓名</span><i class="fl"></i></li>
-                    <li class="clear"><span class="fl">照片</span><img class="fl" src="../../assets/img/platform/userManage/default.jpg" alt=""></li>
-                    <li class="clear"><span class="fl">企业名称</span><i class="fl"></i></li>
-                    <li class="clear"><span class="fl">企业性质</span><i class="fl"></i></li>
-                    <li class="clear"><span class="fl">组织机构代码</span><i class="fl"></i></li>
-                    <li class="clear"><span class="fl">统一信用代码</span><i class="fl"></i></li>
-                </ul>
-                <div class="right fr">
-                    <div class="right_top">
-                        <header><span>私密信息</span></header>
-                        <div class="message">
-                            <p class="clear"><span class="fl">区块链账户ID</span><b class="fr"></b></p>
-                            <ul class="clear">
-                                <li class="fl"><h1>指纹信息</h1><div><img src="../../assets/img/platform/userManage/fingerprint.png" alt=""></div></li>
-                                <li class="fl"><h1>人脸信息</h1><div><img src="../../assets/img/platform/userManage/default.jpg" alt=""></div></li>
-                                <li class="fl"><h1>虹膜信息</h1><div><img src="../../assets/img/platform/userManage/iris.png" alt=""></div></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="right_bottom">
-                        <h1>异常数据</h1>
-                        <ul>
-                            <li class="clear"><span class="fl">1 2017/03/25违反《信息交易规定》相关条约</span></li>
+                <div class="top clear">
+                    <ul class="top_left fl">
+                        <li class="fl"><h1>公开信息</h1></li>
+                        <li class="fl"><h1>可公开信息</h1></li>
+                        <li class="fl entry"><span class="fl">公钥指纹</span><b>{{userData.PUBLIC_KEY_FINGERPRINT}}</b></li>
+                        <li class="fl"><span class="fl">姓名</span><b>{{userData.REAL_NAME}}</b></li>
+                        <li class="fl score">
+                            <span class="fl">系统评分</span>
+                            <img src="../../assets/img/platform/userManage/score.png" alt="">
+                            <div class="clear">
+                                <i class="fl"></i>
+                                <i class="fl"></i>
+                                <i class="fl"></i>
+                                <s class="fl"></s>
+                                <s class="fl"></s>
+                            </div>
+                            <h2>5.0分</h2>
+                        </li>
+                        <li class="fl photo">
+                            <span class="fl">照片</span>
+                            <img src="../../assets/img/platform/userManage/user.png" alt="">
+                        </li>
+                        <li class="fl"><span class="fl">数据共享次</span><b>{{userData.DATA_SHARES_TIMES+' 次'}}</b></li>
+                        <li class="fl"><span class="fl">企业名称</span><b>{{userData.COMPANY_NAME}}</b></li>
+                        <li class="fl"><span class="fl">数据共享总量</span><b>{{userData.DATA_SHARING_TOTAL+' GB'}}</b></li>
+                        <li class="fl"><span class="fl">企业性质</span><b>{{userData.COMPANY_TYPE}}</b></li>
+                        <li class="fl"><span class="fl">履约次数</span><b>{{userData.COMPLIANCE_TIMES+' 次'}}</b></li>
+                        <li class="fl"><span class="fl">组织机构代码</span><b>{{userData.ORGANIZATION_CODE}}</b></li>
+                        <li class="fl"><span class="fl">违约次数</span><b>{{userData.BREACH_CONTRACT_TIMES+' 次'}}</b></li>
+                        <li class="fl"><span class="fl">统一信用代码</span><b>{{userData.UNIFIED_SOCIAL_CREDIT_CODE}}</b></li>
+                    </ul>
+                    <div class="top_right fr">
+                        <header>私密信息</header>
+                        <h1 class="clear">
+                            <span class="fl">区块链账户ID</span>
+                            <b class="fr">{{currentUserId}}</b>
+                        </h1>
+                        <ul class="clear">
+                            <li class="fl"><h2>指纹信息</h2><img src="../../assets/img/platform/userManage/fingerprint.png" alt=""></li>
+                            <li class="fl"><h2>人脸信息</h2><img src="../../assets/img/platform/userManage/default.png" alt=""></li>
+                            <li class="fl"><h2>虹膜信息</h2><img src="../../assets/img/platform/userManage/iris.png" alt=""></li>
                         </ul>
                     </div>
+                </div>
+                <div class="bottom">
+                    <header>异常数据</header>
+                    <VuePerfectScrollbar class="bottom_content">
+                        <ul>
+                            <li v-for="(i,$index) in errorData">
+                                <span>{{$index+1}}</span>
+                                <span>{{i.BREACH_TIME | moment}}</span>
+                                <span>{{i.BREACH_CONTRACT_CONTENT}}</span>
+                            </li>
+                        </ul>
+                    </VuePerfectScrollbar>
                 </div>
             </div>
         </section>
@@ -45,16 +86,46 @@
 </template>
 
 <script>
-    import VerticalSlider from '~/component/verticalSlider'
-    import Image from '~/assets/img/platform/blockChainMsg/sliderImg.png'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import { userManage_getUserList } from '~/api/apiFactory'
+    import { userManage_getUserData } from '~/api/apiFactory'
+    import { userManage_getErrorData } from '~/api/apiFactory'
 
     export default {
         name: "user-manage",
-        components: {VerticalSlider},
+        components: {VuePerfectScrollbar},
         data() {
             return{
-                sliderImg: {background : 'url('+ Image +') no-repeat center'}
+                userList: null,
+                userData: {},
+                errorData: null,
+                id: null
             }
+        },
+        methods: {
+            async getUserList() {
+                let data = await userManage_getUserList();
+                this.userList = data.data.data;
+                this.id = this.userList[0].ID;
+                this.getUserData();
+                this.getErrorData();
+            },
+            async getUserData() {
+                let data = await userManage_getUserData(this.id);
+                this.userData = data.data.data[0];
+            },
+            async getErrorData() {
+                let data = await userManage_getErrorData(this.id);
+                this.errorData = data.data.data;
+            },
+            toggleData(id) {
+                this.id = id;
+                this.getUserData();
+                this.getErrorData();
+            }
+        },
+        mounted() {
+            this.getUserList();
         }
     }
 </script>
@@ -62,89 +133,200 @@
 <style lang="scss" scoped>
     .userManage{
         height: 920px;
+        .verticalSlider {
+            position: relative;
+            padding: 45px 0;
+            b {
+                position: absolute;
+                left: 0;
+                right: 0;
+                margin: auto;
+                width: 48px;
+                height: 24px;
+            }
+            .top_icon {
+                background: url('../../assets/img/platform/component/top.png') no-repeat center;
+                top: 20px;
+            }
+            .bottom_icon {
+                background: url('../../assets/img/platform/component/bottom.png') no-repeat center;
+                bottom: 20px;
+            }
+            div{
+                width: 140px;
+                height: 700px;
+                position: relative;
+                overflow: hidden;
+                ul{
+                    position: absolute;
+                    width: 140px;
+                    z-index: 11;
+                    top: 0;
+                    li {
+                        width: 100px;
+                        height: 100px;
+                        position: relative;
+                        padding: 20px;
+                        background: url('../../assets/img/platform/blockChainMsg/sliderImg.png') no-repeat center;
+                        h1{
+                            width: 96px;
+                            height: 96px;
+                            background-color: rgba(74,107,186,.8);
+                            cursor: pointer;
+                            color: #fff;
+                            padding: 2px;
+                            font-size: 14px;
+                            text-align: center;
+                            display: none;
+                        }
+                    }
+                    li:hover,li.current{
+                        background-color: #f0f3fa!important;
+                        h1{
+                            display: block;
+                        }
+                    }
+                }
+                h2 {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    width: 16px;
+                    height: 700px;
+                    background: url('../../assets/img/platform/component/chain.png') no-repeat center;
+                    z-index: 10;
+                }
+            }
+        }
         .hasVerticalSliderContent{
             padding: 30px;
             height: calc(100% - 60px);
-            .left{
-                width: 540px;
-                li{
-                    line-height: 40px;
-                    h3 {
-                        height: 30px;
+            .top{
+                .top_left{
+                    background-color: #fff;
+                    border-left: 8px solid #3ad296;
+                    padding: 10px;
+                    width: calc(100% - 558px);
+                    li{
+                        width: calc(50% - 20px);
+                        padding: 0 10px;
                         line-height: 30px;
-                        text-align: center;
-                        width: 150px;
-                        background-color: #0051bd;
-                        color: #fff;
+                        h1{
+                            color: #5a8bff;
+                        }
+                        span{
+                            width: 100px;
+                        }
+                        b {
+                            font-weight: normal;
+                            color: #0077e6;
+                            word-break: break-all;
+                        }
+                    }
+                    .entry{
+                        height: 30px;
+                        overflow: hidden;
+                    }
+                    .photo{
+                        img{
+                            vertical-align: top;
+                        }
+                    }
+                    .score{
+                        height: 100px;
+                        position: relative;
+                        img{
+                            vertical-align: top;
+                            margin-top: 18px;
+                        }
+                        div{
+                            position: absolute;
+                            top: 40px;
+                            left: 185px;
+                            i, s {
+                                width: 16px;
+                                height: 16px;
+                                margin-left: 4px;
+                            }
+                            i {
+                                background: url('../../assets/img/platform/userManage/star.png') no-repeat center;
+                            }
+                            s {
+                                background: url('../../assets/img/platform/userManage/_star.png') no-repeat center;
+                            }
+                        }
+                        h2{
+                            position: absolute;
+                            top: 36px;
+                            left: 127px;
+                        }
+                    }
+
+                }
+                .top_right{
+                    border-left: 8px solid #ffdd67;
+                    background-color: #fff;
+                    width: 472px;
+                    height: 280px;
+                    padding: 10px;
+                    header{
+                        color: #5a8bff;
+                        line-height: 30px;
                         font-size: 16px;
-                        font-weight: normal;
-                        margin-bottom: 20px;
                     }
-                    span {
-                        width: 120px;
-                        padding-left: 30px;
+                    h1{
+                        line-height: 60px;
+                        b{
+                            font-weight: normal;
+                            color: #00b361;
+                        }
                     }
-                    i {
-                        color: #2186ed;
-                        font-style: normal;
-                    }
-                    img{
-                        border: 1px solid #0377ff;
+                    ul{
+                        margin-top: 20px;
+                        li{
+                            h2{
+                                height: 30px;
+                                line-height: 30px;
+                                text-align: center;
+                            }
+                            img{
+                                vertical-align: top;
+                            }
+                        }
+                        li:nth-child(2){
+                            margin: 0 56px;
+                        }
                     }
                 }
             }
-            .right{
-                .right_top {
-                    width: 632px;
-                    border: 2px solid #0377ff;
-                    header {
-                        height: 50px;
-                        line-height: 50px;
-                        text-align: center;
-                        background-color: #5c71f7;
-                        font-size: 22px;
-                        color: #fff;
-                    }
-                    .message {
-                        padding: 20px 28px 35px;
-                        p {
-                            height: 40px;
-                            line-height: 40px;
-                            font-size: 18px;
-                            margin-bottom: 30px;
-                        }
-                        li {
-                            width: 172px;
-                            height: 213px;
-                            h1{
-                                height: 20px;
-                                text-align: center;
-                            }
-                            div {
-                                height: 170px;
-                                text-align: center;
-                                padding-top: 23px;
-                                background: url('../../assets/img/platform/userManage/border.png') no-repeat center;
-                                overflow: hidden;
-                            }
-                        }
-                        li:nth-child(2) {
-                            margin: 0 30px;
-                        }
-                    }
+            .bottom{
+                margin-top: 20px;
+                background-color: #fff;
+                border-bottom: 1px solid #fff;
+                header {
+                    font-size: 24px;
+                    height: 50px;
+                    line-height: 50px;
+                    text-align: center;
+                    background-color: #5a8bff;
+                    color: #fff;
                 }
-                .right_bottom{
-                    height: 320px;
-                    width: 576px;
-                    border-left: 30px solid #0377ff;
-                    margin-top: 18px;
-                    padding-left: 30px;
-                    overflow: auto;
+                .bottom_content{
+                    margin: 30px;
                     line-height: 40px;
-                    h1 {
-                        font-size: 18px;
-                        color: #0377ff;
-                        font-weight: normal;
+                    height: 299px;
+                    ul{
+                        li{
+                            padding: 0 10px;
+                            span{
+                                margin-right: 10px;
+                            }
+                        }
+                        li:nth-child(odd){
+                            background-color: #f5f7fc;
+                        }
                     }
                 }
             }

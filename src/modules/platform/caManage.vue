@@ -3,76 +3,32 @@
         <div class="top publicBox">
             <header class="header clear"><span class="fl"></span>密钥管理</header>
             <ul class="clear">
-                <li class="fl current">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
-                </li>
-                <li class="fl">
-                    <div><span>3DES</span><button type="button">使用</button></div>
+                <li class="fl" v-for="i in dataKeyList" :class="{current : i.USE_TYPE === '1'}">
+                    <div><span>{{i.DATA_KEY_NAME}}</span><button type="button" @click="updateKey(i.ID)">使用</button></div>
                 </li>
             </ul>
         </div>
         <div class="bottom publicBox">
             <header class="header clear"><span class="fl"></span>CA管理</header>
             <div class="wait">
-                <h1>等待认证队列<button class="fr" type="button">&gt;</button><button class="fr" type="button">&lt;</button></h1>
+                <h1>等待认证队列<button class="fr" type="button" @click="nextUnApprove">&gt;</button><button class="fr" type="button" @click="prevUnApprove">&lt;</button></h1>
                 <ul class="clear">
-                    <li class="fl">
+                    <li class="fl" v-for="i in unApproveList">
                         <div class="fl">
                             <ul class="clear">
-                                <li class="fl">黄旭芳</li>
-                                <li class="fl">18222213241</li>
-                                <li class="fl">hxf@mrray.cn</li>
+                                <li class="fl">{{i.REAL_NAME}}</li>
+                                <li class="fl" style="margin: 0 10px;">{{i.PHONE}}</li>
+                                <li class="fl">{{i.E_MAIL}}</li>
                             </ul>
                             <ul class="clear">
-                                <li class="fl">迅鳐成都科技有限公司 </li>
-                                <li class="fl">私有企业</li>
+                                <li class="fl">{{i.COMPANY_NAME}}</li>
+                                <li class="fl">{{i.COMPANY_TYPE}}</li>
                             </ul>
                             <ul class="clear">
-                                <li class="fl">四川省成都市郫县大禹东路66号梦翔大厦3栋F10</li>
+                                <li class="fl">{{i.COMPANY_ADDR}}</li>
                             </ul>
                             <ul class="clear">
-                                <li class="fl"><span>公钥：61:8s:12:4f:1b:53:69:7f:a8:bd:04:9c:62:2f:78:09</span></li>
-                            </ul>
-                        </div>
-                        <div class="fr">
-                            <button type="button">通过认证</button>
-                            <p><span>拒绝认证</span></p>
-                        </div>
-                    </li>
-                    <li class="fr">
-                        <div class="fl">
-                            <ul class="clear">
-                                <li class="fl">黄旭芳</li>
-                                <li class="fl">18222213241</li>
-                                <li class="fl">hxf@mrray.cn</li>
-                            </ul>
-                            <ul class="clear">
-                                <li class="fl">迅鳐成都科技有限公司 </li>
-                                <li class="fl">私有企业</li>
-                            </ul>
-                            <ul class="clear">
-                                <li class="fl">四川省成都市郫县大禹东路66号梦翔大厦3栋F10</li>
-                            </ul>
-                            <ul class="clear">
-                                <li class="fl">公钥：<span>公钥：61:8s:12:4f:1b:53:69:7f:a8:bd:04:9c:62:2f:78:09</span></li>
+                                <li class="fl"><span>公钥：{{i.PUBLIC_KEY_FINGERPRINT}}</span></li>
                             </ul>
                         </div>
                         <div class="fr">
@@ -83,89 +39,21 @@
                 </ul>
             </div>
             <div class="approved">
-                <h1>已经认证队列<button class="fr" type="button">&gt;</button><button class="fr" type="button">&lt;</button></h1>
+                <h1>已经认证队列<button class="fr" type="button" @click="nextApprove">&gt;</button><button class="fr" type="button" @click="prevApprove">&lt;</button></h1>
                 <ul class="approvedList clear">
-                    <li class="fl">
+                    <li class="fl" v-for="i in approveList">
                         <div class="fl">
-                            <p>谢霆锋</p>
-                            <p>迅鳐科技有限公司</p>
-                            <p>255130002612120</p>
+                            <p>{{i.REAL_NAME}}</p>
+                            <p>{{i.COMPANY_NAME}}</p>
+                            <p>{{i.ID}}</p>
                         </div>
                         <div class="fr">
                             <h2 class="star clear">
                                 <b class="fl"></b>
                                 <b class="fl"></b>
                                 <b class="fl"></b>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
-                            </h2>
-                            <img src="../../assets/img/platform/caManage/small_user.png" alt="">
-                        </div>
-                    </li>
-                    <li class="fl">
-                        <div class="fl">
-                            <p>谢霆锋</p>
-                            <p>迅鳐科技有限公司</p>
-                            <p>255130002612120</p>
-                        </div>
-                        <div class="fr">
-                            <h2 class="star clear">
                                 <b class="fl"></b>
                                 <b class="fl"></b>
-                                <b class="fl"></b>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
-                            </h2>
-                            <img src="../../assets/img/platform/caManage/small_user.png" alt="">
-                        </div>
-                    </li>
-                    <li class="fl">
-                        <div class="fl">
-                            <p>谢霆锋</p>
-                            <p>迅鳐科技有限公司</p>
-                            <p>255130002612120</p>
-                        </div>
-                        <div class="fr">
-                            <h2 class="star clear">
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
-                            </h2>
-                            <img src="../../assets/img/platform/caManage/small_user.png" alt="">
-                        </div>
-                    </li>
-                    <li class="fl">
-                        <div class="fl">
-                            <p>谢霆锋</p>
-                            <p>迅鳐科技有限公司</p>
-                            <p>255130002612120</p>
-                        </div>
-                        <div class="fr">
-                            <h2 class="star clear">
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
-                            </h2>
-                            <img src="../../assets/img/platform/caManage/small_user.png" alt="">
-                        </div>
-                    </li>
-                    <li class="fl">
-                        <div class="fl">
-                            <p>谢霆锋</p>
-                            <p>迅鳐科技有限公司</p>
-                            <p>255130002612120</p>
-                        </div>
-                        <div class="fr">
-                            <h2 class="star clear">
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <b class="fl"></b>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
                             </h2>
                             <img src="../../assets/img/platform/caManage/small_user.png" alt="">
                         </div>
@@ -177,8 +65,81 @@
 </template>
 
 <script>
+    import { caManage_getDataKeyList } from '~/api/apiFactory'
+    import { caManage_updateKey } from '~/api/apiFactory'
+    import { caManage_getApproveList } from '~/api/apiFactory'
+    import { caManage_getUnApproveList } from '~/api/apiFactory'
+
     export default {
-        name: "ca-manage"
+        name: "ca-manage",
+        data() {
+            return{
+                dataKeyList: null,
+                approveList: null,
+                unApproveList: null,
+                approvePage: 1,
+                unApprovePage: 1,
+                approveTotalPage: null,
+                unApproveTotalPage: null,
+            }
+        },
+        methods: {
+            async getDataKeyList() {
+                let data = await caManage_getDataKeyList();
+                this.dataKeyList = data.data.data;
+            },
+            async updateKey(id) {
+                let data = await caManage_updateKey(id);
+                data.data.status === 1 && (this.getDataKeyList());
+            },
+            async getApproveList() {
+                let data = await caManage_getApproveList(this.approvePage);
+                this.approveList = data.data.data;
+                this.approveTotalPage = Math.ceil(data.data.total/5);
+            },
+            async getUnApproveList() {
+                let data = await caManage_getUnApproveList(this.unApprovePage);
+                this.unApproveList = data.data.data;
+                this.unApproveTotalPage = Math.ceil(data.data.total/2);
+            },
+            nextApprove() {
+                if(this.approvePage < this.approveTotalPage){
+                    this.approvePage++;
+                    this.getApproveList();
+                }else{
+                    console.log(123);
+                }
+            },
+            prevApprove() {
+                if(this.approvePage > 1){
+                    this.approvePage--;
+                    this.getApproveList();
+                }else{
+                    console.log(123);
+                }
+            },
+            nextUnApprove() {
+                if(this.unApprovePage < this.unApproveTotalPage){
+                    this.unApprovePage++;
+                    this.getUnApproveList(this.unApprovePage);
+                }else{
+                    console.log(123);
+                }
+            },
+            prevUnApprove() {
+                if(this.unApprovePage > 1){
+                    this.unApprovePage--;
+                    this.getUnApproveList(this.unApprovePage);
+                }else{
+                    console.log(123);
+                }
+            }
+        },
+        mounted() {
+            this.getDataKeyList();
+            this.getApproveList();
+            this.getUnApproveList();
+        }
     }
 </script>
 
@@ -259,6 +220,7 @@
             >ul{
                 padding-bottom: 45px;
                 border-bottom: 1px solid #0051bd;
+                height: 100px;
                 >li{
                     width:736px;
                     height:100px;
@@ -298,6 +260,9 @@
                             color: #62cfcc;
                         }
                     }
+                }
+                >li:first-child{
+                    margin-right: 18px;
                 }
             }
         }

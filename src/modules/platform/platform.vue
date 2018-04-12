@@ -17,7 +17,7 @@
                 <div class="clear" @click="href('contract')" :class="{current : asideContractNav}"><i class="fl"></i><span>区块链合约信息</span></div>
                 <div class="clear" @click="href('userManage')" :class="{current : asideUserManageNav}"><i class="fl"></i><span>区块链帐户管理</span></div>
                 <div class="clear" @click="href('share')" :class="{current : asideShareNav}"><i class="fl"></i><span>数据共享平台数据集市</span></div>
-                <div class="clear"><i class="fl"></i><span>违约与异常态势</span></div>
+                <div class="clear" @click="href('abnormal')" :class="{current : asideAbnormalNav}"><i class="fl"></i><span>违约与异常态势</span></div>
                 <div class="clear" @click="href('dataMap')" :class="{current : asideDataMapNav}"><i class="fl"></i><span>数据地图</span></div>
                 <div class="clear" @click="href('caManage')" :class="{current : asideCaManageNav}"><i class="fl"></i><span>数据密钥/CA管理</span></div>
             </nav>
@@ -39,6 +39,7 @@
                 asideContractNav: false,
                 asideUserManageNav: false,
                 asideShareNav: false,
+                asideAbnormalNav: false,
                 asideDataMapNav: false,
                 asideCaManageNav: false
             }
@@ -50,6 +51,7 @@
                 this.asideContractNav = false;
                 this.asideUserManageNav = false;
                 this.asideShareNav = false;
+                this.asideAbnormalNav = false;
                 this.asideDataMapNav = false;
                 this.asideCaManageNav = false;
                 switch (this.$route.name){
@@ -58,6 +60,7 @@
                     case 'contract' : this.asideContractNav = true;break;
                     case 'userManage' : this.asideUserManageNav = true;break;
                     case 'share' : this.asideShareNav = true;break;
+                    case 'abnormal' : this.asideAbnormalNav = true;break;
                     case 'dataMap' : this.asideDataMapNav = true;break;
                     case 'caManage' : this.asideCaManageNav = true;break;
                 }

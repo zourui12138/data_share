@@ -12,83 +12,140 @@
                 </div>
                 <div class="blockChain">
                     <header>所含信息区块链</header>
-                    <DataMapSlider :sliderImg="sliderImg"/>
+                    <div class="slider">
+                        <div>
+                            <ul class="clear" :style="containerWidth">
+                                <li
+                                    v-animate="{
+                                        index: index,
+                                        len: dataList.length,
+                                        distance: 140,
+                                        callback : toggleData,
+                                        id : i.ID
+                                    }"
+                                    class="fl"
+                                    v-for="(i,index) in dataList"
+                                    :class="{current : index === 0}">
+                                    <s>{{i.ID}}</s>
+                                </li>
+                            </ul>
+                        </div>
+                        <b class="left_icon"></b>
+                        <b class="right_icon"></b>
+                    </div>
                 </div>
                 <div class="dataMsg">
                     <div class="dataContainer">
                         <div class="dataBox">
-                            <header>数据拥有方-</header>
+                            <header>数据拥有方-{{sellData.COMPANY_NAME}}</header>
                             <section class="clear">
                                 <ul class="fl">
-                                    <li class="clear"><span class="fl">公钥指纹</span><b class="fl">2a:d8:00:8e:02:63:a4:32:7e:e8:5c:4a:36:4d:e0:ea</b></li>
-                                    <li class="clear">
-                                        <span class="fl">系统评分</span>
-                                        <div class="fl"><h1></h1></div>
-                                        <i>分</i>
-                                    </li>
-                                    <li class="clear"><span class="fl">数据共享次</span><b class="fl"><s></s>次</b></li>
-                                    <li class="clear"><span class="fl">数据共享总量</span><b class="fl"><s></s>GB</b></li>
+                                    <li class="clear"><span class="fl">公钥指纹</span><b class="fl">{{sellData.PUBLIC_KEY_FINGERPRINT}}</b></li>
+                                    <li class="clear"><span class="fl">系统评分</span><b class="fl">{{sellData.SYSTEM_SCORE+' 分'}}</b></li>
+                                    <li class="clear"><span class="fl">数据共享次</span><b class="fl">{{sellData.DATA_SHARES_TIMES+' 次'}}</b></li>
+                                    <li class="clear"><span class="fl">数据共享总量</span><b class="fl">{{sellData.DATA_SHARING_TOTAL+' 次'}}</b></li>
                                 </ul>
                                 <footer class="fl"></footer>
                             </section>
                         </div>
                     </div>
                     <div class="dataContainer clear">
-                        <div class="dataBox fl">
-                            <header>数据拥有方-</header>
+                        <div class="dataBox fl" v-for="i in buyData">
+                            <header>数据使用方-{{i.COMPANY_NAME}}</header>
                             <section class="clear">
                                 <ul class="fl">
-                                    <li class="clear"><span class="fl">公钥指纹</span><b class="fl">2a:d8:00:8e:02:63:a4:32:7e:e8:5c:4a:36:4d:e0:ea</b></li>
-                                    <li class="clear">
-                                        <span class="fl">系统评分</span>
-                                        <div class="fl"><h1></h1></div>
-                                        <i>分</i>
-                                    </li>
-                                    <li class="clear"><span class="fl">数据共享次</span><b class="fl"><s></s>次</b></li>
-                                    <li class="clear"><span class="fl">数据共享总量</span><b class="fl"><s></s>GB</b></li>
+                                    <li class="clear"><span class="fl">公钥指纹</span><b class="fl">{{i.PUBLIC_KEY_FINGERPRINT}}</b></li>
+                                    <li class="clear"><span class="fl">系统评分</span><b class="fl">{{i.SYSTEM_SCORE+' 分'}}</b></li>
+                                    <li class="clear"><span class="fl">数据共享次</span><b class="fl">{{i.DATA_SHARES_TIMES+' 次'}}</b></li>
+                                    <li class="clear"><span class="fl">数据共享总量</span><b class="fl">{{i.DATA_SHARING_TOTAL+' 次'}}</b></li>
                                 </ul>
                                 <footer class="fl"></footer>
                             </section>
                         </div>
-                        <div class="dataBox fl">
-                            <header>数据拥有方-</header>
-                            <section class="clear">
-                                <ul class="fl">
-                                    <li class="clear"><span class="fl">公钥指纹</span><b class="fl">2a:d8:00:8e:02:63:a4:32:7e:e8:5c:4a:36:4d:e0:ea</b></li>
-                                    <li class="clear">
-                                        <span class="fl">系统评分</span>
-                                        <div class="fl"><h1></h1></div>
-                                        <i>分</i>
-                                    </li>
-                                    <li class="clear"><span class="fl">数据共享次</span><b class="fl"><s></s>次</b></li>
-                                    <li class="clear"><span class="fl">数据共享总量</span><b class="fl"><s></s>GB</b></li>
-                                </ul>
-                                <footer class="fl"></footer>
-                            </section>
-                        </div>
-                        <div class="left_icon"></div>
-                        <div class="right_icon"></div>
+                        <div class="left_icon" @click="prevBuyUser"></div>
+                        <div class="right_icon" @click="nextBuyUser"></div>
                     </div>
                 </div>
             </section>
         </div>
         <div class="right fr publicBox">
             <header class="header clear"><span class="fl">热</span>近期热搜数据</header>
+            <h1>数据集</h1>
+            <ul>
+                <li v-for="i in hotData">{{i.DATA_NAME}}</li>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
-    import DataMapSlider from '~/component/dataMapSlider'
-    import sliderImg from '~/assets/img/platform/dataMap/sliderImg.png'
-
+    import { dataMap_getHotData } from '~/api/apiFactory'
+    import { dataMap_getDataList } from '~/api/apiFactory'
+    import { dataMap_getSellUser } from '~/api/apiFactory'
+    import { dataMap_getBuyUser } from '~/api/apiFactory'
     export default {
         name: "data-map",
-        components: {DataMapSlider},
         data() {
             return{
-                sliderImg: sliderImg
+                hotData: null,
+                dataList: null,
+                sellData: {},
+                buyData: null,
+                buyPage: 1,
+                buyTotalPage: null,
+                currentDataId: 1
             }
+        },
+        computed: {
+            containerWidth() {return this.dataList && {width : this.dataList.length*140+'px'};}
+        },
+        methods: {
+            async getHotData() {
+                let data = await dataMap_getHotData();
+                this.hotData = data.data.data;
+            },
+            async getDataList() {
+                let data = await dataMap_getDataList();
+                this.dataList = data.data.data;
+                this.currentDataId = this.dataList[0].ID;
+                this.getSellUser();
+                this.getBuyUser();
+            },
+            async getSellUser() {
+                let data = await dataMap_getSellUser(this.currentDataId);
+                this.sellData = data.data.data[0];
+            },
+            async getBuyUser() {
+                let data = await dataMap_getBuyUser(this.currentDataId,this.buyPage);
+                this.buyData = data.data.data;
+                this.buyTotalPage = Math.ceil(data.data.total/2);
+            },
+            nextBuyUser() {
+                if(this.buyPage < this.buyTotalPage){
+                    this.buyPage++;
+                    this.getBuyUser();
+                }else{
+                    console.log(123);
+                }
+            },
+            prevBuyUser() {
+                if(this.buyPage > 1){
+                    this.buyPage--;
+                    this.getBuyUser();
+                }else{
+                    console.log(123);
+                }
+            },
+            toggleData(id) {
+                this.currentDataId = id;
+                this.buyPage = 1;
+                this.getSellUser();
+                this.getBuyUser();
+            }
+        },
+        mounted() {
+            this.getHotData();
+            this.getDataList();
         }
     }
 </script>
@@ -149,12 +206,57 @@
                     padding-left: 20px;
                     font-size: 16px;
                 }
+                .slider{
+                    height: 140px;
+                    position: relative;
+                    div{
+                        width: 980px;
+                        height: 120px;
+                        margin: auto;
+                        padding: 10px 0;
+                        overflow: hidden;
+                        position: relative;
+                        ul{
+                            position: absolute;
+                            top: 10px;
+                            left: 0;
+                            li{
+                                width: 100px;
+                                height: 100px;
+                                padding: 10px;
+                                cursor: pointer;
+                                margin: 0 10px;
+                                border-radius: 4px;
+                                background: url('../../assets/img/platform/dataMap/sliderImg.png') no-repeat center;
+                            }
+                            li:hover,li.current{
+                                background:#3ad296 url('../../assets/img/platform/dataMap/sliderImg_hover.png') no-repeat center;
+                            }
+                        }
+                    }
+                    b{
+                        position: absolute;
+                        width: 24px;
+                        height: 48px;
+                        top: calc(50% - 24px);
+                        cursor: pointer;
+                    }
+                    b.left_icon{
+                        background: url('../../assets/img/platform/dataMap/left.png') no-repeat center;
+                        left: 18px;
+                    }
+                    b.right_icon{
+                        background: url('../../assets/img/platform/dataMap/right.png') no-repeat center;
+                        right: 18px;
+                    }
+                }
             }
             .dataMsg{
                 border: 2px solid #2186ed;
                 padding: 10px 0;
                 .dataContainer{
                     width: 1000px;
+                    height: 242px;
                     margin: 10px auto;
                     position: relative;
                     .dataBox{
@@ -204,11 +306,11 @@
                         cursor: pointer;
                     }
                     .left_icon{
-                        background: url('../../assets/img/platform/component/left_bg.png') no-repeat center;
+                        background: url('../../assets/img/platform/dataMap/left.png') no-repeat center;
                         left: -30px;
                     }
                     .right_icon{
-                        background: url('../../assets/img/platform/component/right_bg.png') no-repeat center;
+                        background: url('../../assets/img/platform/dataMap/right.png') no-repeat center;
                         right: -30px;
                     }
                 }
@@ -218,5 +320,16 @@
     .right{
         width: 350px;
         height: 920px;
+        line-height: 39px;
+        h1 {
+            color: #0377ff;
+            font-weight: bold;
+            border-bottom: 1px solid #aaa;
+            font-size: 14px;
+        }
+        li{
+            border-bottom: 1px dashed #aaa;
+            font-size: 14px;
+        }
     }
 </style>

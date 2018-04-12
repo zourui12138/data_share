@@ -2,11 +2,19 @@
     <div id="verticalSlider">
         <div>
             <ul>
-                <li :style="sliderImg"><h1><span></span></h1><s></s></li>
-                <li :style="sliderImg"><h1></h1><s></s></li>
-                <li :style="sliderImg" class="current"><h1><span>2015年全社会研发情况</span></h1><s></s></li>
-                <li :style="sliderImg"><h1></h1><s></s></li>
-                <li :style="sliderImg"><h1></h1><s></s></li>
+                <li
+                    v-vertical-animate="{
+                        index: index,
+                        len: sliderData.length,
+                        distance: 140,
+                        callback : callback,
+                        id : i.ID
+                    }"
+                    :style="sliderImg"
+                    :class="{current : index === 0}"
+                    v-for="(i,index) in sliderData">
+                    <h1><span>{{i.DATA_NAME}}</span></h1>
+                </li>
             </ul>
             <h2></h2>
         </div>
@@ -18,7 +26,7 @@
 <script>
     export default {
         name: "vertical-slider",
-        props: ['sliderImg']
+        props: ['sliderImg','sliderData','callback']
     }
 </script>
 
@@ -46,6 +54,7 @@
             width: 140px;
             height: 700px;
             position: relative;
+            overflow: hidden;
             ul{
                 position: absolute;
                 width: 140px;
