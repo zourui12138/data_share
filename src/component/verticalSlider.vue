@@ -1,5 +1,5 @@
 <template>
-    <div class="verticalSlider">
+    <div id="verticalSlider">
         <div>
             <ul>
                 <li :style="sliderImg"><h1><span></span></h1><s></s></li>
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .verticalSlider {
+    #verticalSlider {
         position: relative;
         padding: 45px 0;
         b {

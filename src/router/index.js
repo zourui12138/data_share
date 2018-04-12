@@ -11,6 +11,7 @@ import UserManage from '~/modules/platform/userManage'
 import Share from '~/modules/platform/share'
 import Abnormal from '~/modules/platform/abnormal'
 import DataMap from '~/modules/platform/dataMap'
+import CaManage from '~/modules/platform/caManage'
 
 Vue.use(Router);
 
@@ -60,6 +61,11 @@ export default new Router({
                     path: '/platform/dataMap',
                     name: 'dataMap',
                     component: DataMap
+                },
+                {
+                    path: '/platform/caManage',
+                    name: 'caManage',
+                    component: CaManage
                 }
             ]
         }
