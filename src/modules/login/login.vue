@@ -7,15 +7,15 @@
             </div>
             <ul class="fl">
                 <li>登录</li>
-                <li><b class="fl"></b><span>帐号</span><input type="text" placeholder="请输入帐号"></li>
-                <li><b class="fl"></b><span>密码</span><input type="password" placeholder="请输入密码"></li>
+                <li><b class="fl"></b><span>帐号</span><input type="text" placeholder="请输入帐号" v-model="username"></li>
+                <li><b class="fl"></b><span>密码</span><input type="password" placeholder="请输入密码" v-model="password"></li>
                 <li class="clear">
                     <b class="fl"></b><span>指纹</span>
                     <button class="fr" type="button">指纹验证</button>
                     <div class="fr"></div>
                 </li>
                 <li><b class="fl"></b><span>PKI认证</span><i>0101010011010010101010001010101010</i></li>
-                <li><button type="button">登录</button></li>
+                <li><button type="button" @click="login">登录</button></li>
             </ul>
         </div>
     </VuePerfectScrollbar>
@@ -23,10 +23,23 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import { login_login } from '~/api/apiFactory'
 
     export default {
         name: "login",
-        components: {VuePerfectScrollbar}
+        components: {VuePerfectScrollbar},
+        data() {
+            return{
+                username: null,
+                password: null
+            }
+        },
+        methods: {
+            async login() {
+                let data = await login_login(this.username,this.password);
+                data.data.status === 1 && (this.$router.push({path: '/platform/node'}));
+            }
+        }
     }
 </script>
 

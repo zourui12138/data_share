@@ -3,6 +3,8 @@ import axios from 'axios'
 axios.defaults.timeout = 4000;
 
 const api = '/api';
+// 登录系统
+export const login_login = (username,password) => axios.post(api+'/loginData/login',{param: {userName: username, password: password}});
 // 共享平台节点服务器
 export const node_getNewEquipment = (id) => {
     let obj = {};

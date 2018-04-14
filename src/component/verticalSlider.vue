@@ -8,8 +8,8 @@
             </ul>
             <h2></h2>
         </div>
-        <b class="top_icon"></b>
-        <b class="bottom_icon"></b>
+        <b class="top_icon" @click="prevToggleCurrent"></b>
+        <b class="bottom_icon" @click="nextToggleCurrent"></b>
     </div>
 </template>
 
@@ -28,7 +28,7 @@
             dataTotal() {return this.sliderData && this.sliderData.length-1;}
         },
         methods: {
-            move() {
+            move(callback) {
                 this.callback(this.sliderData[this.currentIndex].id);
                 let step;
                 this.isAnimate = true;
@@ -38,11 +38,14 @@
                 }else{
                     step = 0;
                 }
-                $(this.$refs.elem).animate({top : -(140*step) +'px'},'fast',() => {this.isAnimate = false;});
+                $(this.$refs.elem).animate({top : -(140*step) +'px'},'fast',() => {
+                    this.isAnimate = false;
+                    callback && callback();
+                });
             },
             autoAnimate() {
                 this.timer = setInterval(() => {
-                    this.currentIndex++;
+                    this.currentIndex >= this.dataTotal ? this.currentIndex = 0 :  this.currentIndex++;
                     this.move();
                 },2500);
             },
@@ -50,8 +53,31 @@
                 if(!this.isAnimate){
                     this.timer && clearInterval(this.timer);
                     this.currentIndex = index;
-                    this.move();
-                    this.autoAnimate();
+                    this.move(this.autoAnimate);
+                }
+            },
+            nextToggleCurrent() {
+                if(this.currentIndex + 2 < this.dataTotal){
+                    let index;
+                    if(this.currentIndex - 2 > 0){
+                        index = this.currentIndex + 5;
+                        this.currentIndex + 5 >= this.dataTotal - 2 && (index = this.dataTotal - 2);
+                    }else{
+                        index = 7;
+                    }
+                    this.toggleCurrent(index);
+                }
+            },
+            prevToggleCurrent() {
+                if(this.currentIndex > 2) {
+                    let index;
+                    if(this.currentIndex >= this.dataTotal - 2){
+                        index = this.dataTotal - 7;
+                    }else{
+                        index = this.currentIndex - 5;
+                        this.currentIndex <= 7 && (index = 2);
+                    }
+                    this.toggleCurrent(index);
                 }
             }
         },
@@ -72,14 +98,15 @@
             margin: auto;
             width: 48px;
             height: 24px;
+            cursor: pointer;
         }
         .top_icon {
             background: url('../assets/img/platform/component/top.png') no-repeat center;
-            top: 20px;
+            top: 0;
         }
         .bottom_icon {
             background: url('../assets/img/platform/component/bottom.png') no-repeat center;
-            bottom: 20px;
+            bottom: 0;
         }
         div{
             width: 140px;

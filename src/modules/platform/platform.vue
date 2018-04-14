@@ -7,7 +7,7 @@
                     <img class="fr" src="../../assets/img/platform/breadcrumb.png" alt="">
                 </li>
                 <li class="fl">数据共享区块链平台</li>
-                <li class="fr"><a href="#">退出系统</a></li>
+                <li class="fr"><router-link to="/login">退出系统</router-link></li>
             </ul>
         </header>
         <section class="section clear">
