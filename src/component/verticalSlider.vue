@@ -25,7 +25,7 @@
             }
         },
         computed: {
-            dataTotal() {return this.sliderData && this.sliderData.length;}
+            dataTotal() {return this.sliderData && this.sliderData.length-1;}
         },
         methods: {
             move() {

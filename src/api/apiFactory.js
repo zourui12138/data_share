@@ -37,7 +37,10 @@ export const abnormal_getCountData = (id) => axios.post(api+'/defaultAndAbnormal
 export const abnormal_getEventsList = (id,page) => axios.post(api+'/defaultAndAbnormalSituationData/getBreachContractInfosAndTotal',{param: {accountId: id}, limit: {startNumber: page-1, size: 1}});
 // 数据地图
 export const dataMap_getHotData = () => axios.post(api+'/dataMap/getDataList',{limit: {startNumber: 0, size: 18}, orders: [{field: "ID", order: 0}]});
-export const dataMap_getDataList = () => axios.post(api+'/dataMap/getDataInfo',{});
+export const dataMap_getDataList = (keywords) => {
+    let obj = keywords ? {param : {keyWords: keywords}} : {};
+    return axios.post(api+'/dataMap/getDataInfo',obj);
+};
 export const dataMap_getSellUser = (id) => axios.post(api+'/dataMap/getSellUser',{param: {id: id}});
 export const dataMap_getBuyUser = (id,page) => axios.post(api+'/dataMap/getBuyUser',{param: {id: id}, limit: {startNumber: (page-1)*2, size: 2}});
 // ca管理

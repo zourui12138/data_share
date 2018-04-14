@@ -1,33 +1,25 @@
 <template>
     <div class="clear">
         <div class="left fl publicBox">
-            <header class="header clear"><span class="fl"></span>区块数据</header>
+            <header class="header clear">
+                <span class="fl"></span>区块数据
+                <div class="fr">
+                    <input type="text" placeholder="请输入查询信息" v-model="newKeywords"><button type="button" @click="addKeywords(newKeywords)">查询</button>
+                </div>
+            </header>
             <section class="container">
                 <div class="keywords clear">
                     <h1 class="fl">关键词</h1>
                     <ul class="fl">
-                        <li class="fl"><span>123</span><b class="fr"></b></li>
-                        <li class="fl"><span>123</span><b class="fr"></b></li>
+                        <li class="fl" v-show="keywords"><span>{{keywords}}</span><b class="fr" @click="clearKeywords"></b></li>
                     </ul>
                 </div>
                 <div class="blockChain">
                     <header>所含信息区块链</header>
                     <div class="slider">
                         <div>
-                            <ul class="clear" :style="containerWidth">
-                                <li
-                                    v-animate="{
-                                        index: index,
-                                        len: dataList.length,
-                                        distance: 140,
-                                        callback : toggleData,
-                                        id : i.ID
-                                    }"
-                                    class="fl"
-                                    v-for="(i,index) in dataList"
-                                    :class="{current : index === 0}">
-                                    <s>{{i.ID}}</s>
-                                </li>
+                            <ul class="clear" ref="elem" :style="containerWidth">
+                                <li class="fl" v-for="(i,index) in dataList" :class="{current : index === currentIndex}" @click="toggleData(i.ID,index)"><s>{{i.ID}}</s></li>
                             </ul>
                         </div>
                         <b class="left_icon"></b>
@@ -93,11 +85,16 @@
                 buyData: null,
                 buyPage: 1,
                 buyTotalPage: null,
-                currentDataId: 1
+                currentDataId: 1,
+                isAnimate: false,
+                currentIndex: 0,
+                keywords: null,
+                newKeywords: null
             }
         },
         computed: {
-            containerWidth() {return this.dataList && {width : this.dataList.length*140+'px'};}
+            containerWidth() {return this.dataList && {width : this.dataList.length*140+'px'};},
+            dataTotal() {return this.dataList && this.dataList.length-1;}
         },
         methods: {
             async getHotData() {
@@ -105,7 +102,7 @@
                 this.hotData = data.data.data;
             },
             async getDataList() {
-                let data = await dataMap_getDataList();
+                let data = await dataMap_getDataList(this.keywords);
                 this.dataList = data.data.data;
                 this.currentDataId = this.dataList[0].ID;
                 this.getSellUser();
@@ -136,11 +133,32 @@
                     console.log(123);
                 }
             },
-            toggleData(id) {
-                this.currentDataId = id;
-                this.buyPage = 1;
-                this.getSellUser();
-                this.getBuyUser();
+            toggleData(id,index) {
+                if(!this.isAnimate){
+                    this.currentDataId = id;
+                    this.currentIndex = index;
+                    this.buyPage = 1;
+                    this.getSellUser();
+                    this.getBuyUser();
+                    let step;
+                    this.isAnimate = true;
+                    if(this.currentIndex - 3 > 0){
+                        step = this.currentIndex - 3;
+                        this.currentIndex + 3 >= this.dataTotal && (step = this.dataTotal - 6);
+                    }else{
+                        step = 0;
+                    }
+                    $(this.$refs.elem).animate({left : -(140*step) +'px'},'fast',() => {this.isAnimate = false;});
+                }
+            },
+            clearKeywords() {
+                this.keywords = null;
+                this.getDataList();
+            },
+            addKeywords(keywords) {
+                this.keywords = keywords;
+                this.newKeywords = null;
+                this.getDataList();
             }
         },
         mounted() {
@@ -154,6 +172,25 @@
     .left{
         width: calc(100% - 480px);
         height: 920px;
+        .header{
+            input{
+                height: 28px;
+                line-height: 28px;
+                border: 1px solid #aaa;
+                padding-left: 8px;
+                border-radius: 2px;
+                font-size: 14px;
+                width: 300px;
+            }
+            button{
+                height: 30px;
+                width: 60px;
+                background-color: #0377ff;
+                color: #fff;
+                border-radius: 2px;
+                margin-left: 20px;
+            }
+        }
         .container{
             padding: 20px 0;
             height: calc(100% - 90px);
@@ -228,6 +265,15 @@
                                 margin: 0 10px;
                                 border-radius: 4px;
                                 background: url('../../assets/img/platform/dataMap/sliderImg.png') no-repeat center;
+                                position: relative;
+                                s{
+                                    color: #fff;
+                                    text-decoration: none;
+                                    font-size: 20px;
+                                    position: absolute;
+                                    right: 12px;
+                                    bottom: 12px;
+                                }
                             }
                             li:hover,li.current{
                                 background:#3ad296 url('../../assets/img/platform/dataMap/sliderImg_hover.png') no-repeat center;

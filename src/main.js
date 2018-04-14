@@ -25,50 +25,6 @@ Vue.directive('scroll', {
     componentUpdated:  (el) => {el.scrollTop = 0;}
 });
 
-Vue.directive('animate', {
-    bind: (el,binding) => {
-        let len = binding.value.len;
-        let distance = binding.value.distance;
-        let callback = binding.value.callback;
-        $(el).click(function () {
-            let times = 0, index = binding.value.index, id = binding.value.id;
-            if(index <= 3){
-                times = 0;
-            }else if(index >= len-4){
-                times = len-7;
-            }else{
-                times = index - 3;
-            }
-            $(el).parent().animate({left : -(distance*times) +'px'},'fast');
-            $(el).parent().find('.current').removeClass('current');
-            $(el).addClass('current');
-            callback(id);
-        });
-    }
-});
-
-Vue.directive('verticalAnimate', {
-    bind: (el,binding) => {
-        let len = binding.value.len;
-        let distance = binding.value.distance;
-        let callback = binding.value.callback;
-        $(el).click(function () {
-            let times = 0, index = binding.value.index, id = binding.value.id;
-            if(index <= 2){
-                times = 0;
-            }else if(index >= len-3){
-                times = len-5;
-            }else{
-                times = index - 2;
-            }
-            $(el).parent().animate({top : -(distance*times) +'px'},'fast');
-            $(el).parent().find('.current').removeClass('current');
-            $(el).addClass('current');
-            callback(id);
-        });
-    }
-});
-
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

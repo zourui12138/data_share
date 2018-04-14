@@ -3,18 +3,10 @@
         <header class="header clear"><span class="fl"></span>违约详情</header>
         <div class="top">
             <div>
-                <ul class="clear" :style="containerWidth">
-                    <li
-                        v-animate="{
-                             index: index,
-                             len: userList.length,
-                             distance: 197,
-                             callback : toggleData,
-                             id : i.ID
-                        }"
-                        class="fl"
+                <ul class="clear" ref="elem" :style="containerWidth">
+                    <li class="fl"
                         v-for="(i,index) in userList"
-                        :class="{current : index === 0}">
+                        :class="{current : index === currentIndex}" @click="toggleData(i.ID,index)">
                         <p>{{i.USERNAME}}</p>
                     </li>
                 </ul>
@@ -54,11 +46,14 @@
                 events: {},
                 eventsPage: 1,
                 eventsTotalPage: null,
-                currentUserId: 100021001
+                currentUserId: 100021001,
+                currentIndex: 0,
+                isAnimate: false
             }
         },
         computed: {
-            containerWidth() {return this.userList && {width : this.userList.length*197+'px'};}
+            containerWidth() {return this.userList && {width : this.userList.length*197+'px'};},
+            dataTotal() {return this.userList && this.userList.length-1;}
         },
         methods: {
             async getUserList() {
@@ -93,11 +88,23 @@
                     console.log(123);
                 }
             },
-            toggleData(id) {
-                this.currentUserId = id;
-                this.eventsPage = 1;
-                this.getCountData();
-                this.getEvents();
+            toggleData(id,index) {
+                if(!this.isAnimate){
+                    this.currentUserId = id;
+                    this.eventsPage = 1;
+                    this.getCountData();
+                    this.getEvents();
+                    this.currentIndex = index;
+                    let step;
+                    this.isAnimate = true;
+                    if(this.currentIndex - 3 > 0){
+                        step = this.currentIndex - 3;
+                        this.currentIndex + 3 >= this.dataTotal && (step = this.dataTotal - 6);
+                    }else{
+                        step = 0;
+                    }
+                    $(this.$refs.elem).animate({left : -(197*step) +'px'},'fast',() => {this.isAnimate = false;});
+                }
             }
         },
         mounted() {

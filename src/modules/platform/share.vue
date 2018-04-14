@@ -5,18 +5,8 @@
             <section class="container">
                 <div class="slider">
                     <div>
-                        <ul class="clear" :style="containerWidth">
-                            <li
-                                v-animate="{
-                                    index: index,
-                                    len: dataList.length,
-                                    distance: 130,
-                                    callback : toggleData,
-                                    id : i.ID
-                                }"
-                                :class="{current : index === 0}"
-                                class="fl"
-                                v-for="(i,index) in dataList">
+                        <ul class="clear" ref="elem" :style="containerWidth">
+                            <li :class="{current : index === currentIndex}" class="fl" v-for="(i,index) in dataList" @click="toggleData(i.ID,index)">
                                 <img src="../../assets/img/platform/share/sliderImg.png" alt=""><p>{{i.COMPANY_NAME}}</p>
                             </li>
                         </ul>
@@ -69,11 +59,14 @@
                 fileDataPage: 1,
                 fileDataTotalPage: null,
                 apiDataPage: 1,
-                apiDataTotalPage: null
+                apiDataTotalPage: null,
+                currentIndex: 0,
+                isAnimate: false
             }
         },
         computed: {
-            containerWidth() {return this.dataList && {width : this.dataList.length*130+'px'};}
+            containerWidth() {return this.dataList && {width : this.dataList.length*130+'px'};},
+            dataTotal() {return this.dataList && this.dataList.length-1;}
         },
         methods: {
             async getDataList() {
@@ -133,12 +126,24 @@
                     console.log(123);
                 }
             },
-            toggleData(id) {
-                this.currentDataId = id;
-                this.fileDataPage = 1;
-                this.apiDataPage = 1;
-                this.getFileList();
-                this.getApiList();
+            toggleData(id,index) {
+                if(!this.isAnimate){
+                    this.currentDataId = id;
+                    this.fileDataPage = 1;
+                    this.apiDataPage = 1;
+                    this.getFileList();
+                    this.getApiList();
+                    this.currentIndex = index;
+                    let step;
+                    this.isAnimate = true;
+                    if(this.currentIndex - 3 > 0){
+                        step = this.currentIndex - 3;
+                        this.currentIndex + 3 >= this.dataTotal && (step = this.dataTotal - 6);
+                    }else{
+                        step = 0;
+                    }
+                    $(this.$refs.elem).animate({left : -(130*step) +'px'},'fast',() => {this.isAnimate = false;});
+                }
             },
             bar() {
                 // 基于准备好的dom，初始化echarts实例
