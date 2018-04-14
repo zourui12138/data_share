@@ -11,8 +11,8 @@
                     </li>
                 </ul>
             </div>
-            <b class="left_icon"></b>
-            <b class="right_icon"></b>
+            <b class="left_icon" @click="prevToggleCurrent"></b>
+            <b class="right_icon" @click="nextToggleCurrent"></b>
         </div>
         <div class="bottom clear">
             <div class="bottom_left fl">
@@ -53,7 +53,7 @@
         },
         computed: {
             containerWidth() {return this.userList && {width : this.userList.length*197+'px'};},
-            dataTotal() {return this.userList && this.userList.length-1;}
+            dataTotalIndex() {return this.userList && this.userList.length-1;}
         },
         methods: {
             async getUserList() {
@@ -99,11 +99,37 @@
                     this.isAnimate = true;
                     if(this.currentIndex - 3 > 0){
                         step = this.currentIndex - 3;
-                        this.currentIndex + 3 >= this.dataTotal && (step = this.dataTotal - 6);
+                        this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
                     }else{
                         step = 0;
                     }
                     $(this.$refs.elem).animate({left : -(197*step) +'px'},'fast',() => {this.isAnimate = false;});
+                }
+            },
+            nextToggleCurrent() {
+                if(this.currentIndex + 3 < this.dataTotalIndex && this.dataTotalIndex > 6){
+                    let index;
+                    if(this.currentIndex  >= 3){
+                        index = this.currentIndex + 7;
+                        this.currentIndex + 7 >= this.dataTotalIndex - 3 && (index = this.dataTotalIndex - 3);
+                    }else{
+                        index = 10;
+                        index > this.dataTotalIndex - 3 && (index = this.dataTotalIndex - 3);
+                    }
+                    this.toggleData(this.userList[index].ID,index);
+                }
+            },
+            prevToggleCurrent() {
+                if(this.currentIndex > 3  && this.dataTotalIndex > 6) {
+                    let index;
+                    if(this.currentIndex > this.dataTotalIndex - 3){
+                        index = this.dataTotalIndex - 10;
+                        index < 3 && (index = 3);
+                    }else{
+                        index = this.currentIndex - 7;
+                        this.currentIndex < 10 && (index = 3);
+                    }
+                    this.toggleData(this.userList[index].ID,index);
                 }
             }
         },

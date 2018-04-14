@@ -21,11 +21,9 @@
             return{
                 timer: null,
                 isAnimate: false,
-                currentIndex: 0
+                currentIndex: 0,
+                dataTotalIndex: null
             }
-        },
-        computed: {
-            dataTotal() {return this.sliderData && this.sliderData.length-1;}
         },
         methods: {
             move(callback) {
@@ -34,7 +32,7 @@
                 this.isAnimate = true;
                 if(this.currentIndex - 2 > 0){
                     step = this.currentIndex - 2;
-                    this.currentIndex + 2 >= this.dataTotal && (step = this.dataTotal - 4);
+                    this.currentIndex + 2 >= this.dataTotalIndex && (step = this.dataTotalIndex - 4);
                 }else{
                     step = 0;
                 }
@@ -43,11 +41,14 @@
                     callback && callback();
                 });
             },
-            autoAnimate() {
-                this.timer = setInterval(() => {
-                    this.currentIndex >= this.dataTotal ? this.currentIndex = 0 :  this.currentIndex++;
-                    this.move();
-                },2500);
+            autoAnimate(dataTotalIndex) {
+                this.dataTotalIndex = dataTotalIndex;
+                if(this.dataTotalIndex > 4){
+                    this.timer = setInterval(() => {
+                        this.currentIndex >= this.dataTotalIndex ? this.currentIndex = 0 :  this.currentIndex++;
+                        this.move();
+                    },2500);
+                }
             },
             toggleCurrent(index) {
                 if(!this.isAnimate){
@@ -57,32 +58,34 @@
                 }
             },
             nextToggleCurrent() {
-                if(this.currentIndex + 2 < this.dataTotal){
+                if(this.currentIndex + 2 < this.dataTotalIndex && this.dataTotalIndex > 4){
                     let index;
-                    if(this.currentIndex - 2 > 0){
+                    if(this.currentIndex  >= 2){
                         index = this.currentIndex + 5;
-                        this.currentIndex + 5 >= this.dataTotal - 2 && (index = this.dataTotal - 2);
+                        this.currentIndex + 5 >= this.dataTotalIndex - 2 && (index = this.dataTotalIndex - 2);
                     }else{
                         index = 7;
+                        index > this.dataTotalIndex - 2 && (index = this.dataTotalIndex - 2);
                     }
                     this.toggleCurrent(index);
                 }
             },
             prevToggleCurrent() {
-                if(this.currentIndex > 2) {
+                if(this.currentIndex > 2  && this.dataTotalIndex > 4) {
                     let index;
-                    if(this.currentIndex >= this.dataTotal - 2){
-                        index = this.dataTotal - 7;
+                    if(this.currentIndex > this.dataTotalIndex - 2){
+                        index = this.dataTotalIndex - 7;
+                        index < 2 && (index = 2);
                     }else{
                         index = this.currentIndex - 5;
-                        this.currentIndex <= 7 && (index = 2);
+                        this.currentIndex < 7 && (index = 2);
                     }
                     this.toggleCurrent(index);
                 }
             }
         },
         mounted() {
-            this.autoAnimate();
+            this.$emit('listenChildEvent',this.autoAnimate);
         }
     }
 </script>

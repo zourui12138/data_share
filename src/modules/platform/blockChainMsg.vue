@@ -3,7 +3,7 @@
         <div class="left fl publicBox">
             <header class="header clear"><span class="fl"></span>区块链详情</header>
             <section class="container clear">
-                <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="block" :callback="toggleData"/>
+                <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="block" :callback="toggleData" @listenChildEvent="getBlock"/>
                 <div class="hasVerticalSliderContent fl">
                     <h1>{{blockData.data1.ID}}#</h1>
                     <ul class="message clear">
@@ -113,13 +113,15 @@
                 let data = await blockChainMsg_getShareData();
                 this.shareData = data.data.data;
             },
-            async getBlock() {
+            async getBlock(autoAnimate) {
                 let data = await blockChainMsg_getBlock();
                 this.block = [];
                 for(let i=0; i<data.data.data.length; i++){
                     let currentData = data.data.data[i];
                     this.block.push({id:currentData.ID,name: currentData.DATA_NAME});
                 }
+                // 触发轮播动画
+                autoAnimate(data.data.total);
                 this.id = this.block[0].id;
                 this.getBlockData();
             },
@@ -136,7 +138,6 @@
         },
         mounted() {
             this.getShareData();
-            this.getBlock();
         }
     }
 </script>

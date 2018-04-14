@@ -2,7 +2,7 @@
     <div class="userManage publicBox">
         <header class="header clear"><span class="fl"></span>区块链帐户详情</header>
         <section class="container clear">
-            <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="userList" :callback="toggleData"/>
+            <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="userList" :callback="toggleData" @listenChildEvent="getUserList"/>
             <div class="hasVerticalSliderContent fl">
                 <div class="top clear">
                     <ul class="top_left fl">
@@ -86,13 +86,15 @@
             }
         },
         methods: {
-            async getUserList() {
+            async getUserList(autoAnimate) {
                 let data = await userManage_getUserList();
                 this.userList = [];
                 for(let i=0; i<data.data.data.length; i++){
                     let currentData = data.data.data[i];
                     this.userList.push({id:currentData.ID,name: currentData.USERNAME});
                 }
+                // 触发轮播动画
+                autoAnimate(data.data.total);
                 this.id = this.userList[0].id;
                 this.getUserData();
                 this.getErrorData();
@@ -110,9 +112,6 @@
                 this.getUserData();
                 this.getErrorData();
             }
-        },
-        mounted() {
-            this.getUserList();
         }
     }
 </script>
