@@ -107,7 +107,7 @@
                 }
                 // 基于准备好的dom，初始化echarts实例
                 myChart = this.$echarts.init(this.$refs.chart);
-                // 图标配置项
+                // 图表配置项
                 option = {
                     backgroundColor: '#fff',
                     title : {

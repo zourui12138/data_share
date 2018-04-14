@@ -11,7 +11,7 @@
             </ul>
         </header>
         <section class="section clear">
-            <nav class="nav fl">
+            <VuePerfectScrollbar class="nav fl">
                 <div class="clear" @click="href('node')" :class="{current : asideNodeNav}"><i class="fl"></i><span>共享平台节点服务器</span></div>
                 <div class="clear" @click="href('blockChainMsg')" :class="{current : asideBlockChainMsgNav}"><i class="fl"></i><span>数据区块链信息</span></div>
                 <div class="clear" @click="href('contract')" :class="{current : asideContractNav}"><i class="fl"></i><span>区块链合约信息</span></div>
@@ -20,7 +20,7 @@
                 <div class="clear" @click="href('abnormal')" :class="{current : asideAbnormalNav}"><i class="fl"></i><span>违约与异常态势</span></div>
                 <div class="clear" @click="href('dataMap')" :class="{current : asideDataMapNav}"><i class="fl"></i><span>数据地图</span></div>
                 <div class="clear" @click="href('caManage')" :class="{current : asideCaManageNav}"><i class="fl"></i><span>数据密钥/CA管理</span></div>
-            </nav>
+            </VuePerfectScrollbar>
             <VuePerfectScrollbar class="main fl" v-scroll><router-view/></VuePerfectScrollbar>
         </section>
     </div>

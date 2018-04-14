@@ -2,27 +2,7 @@
     <div class="contract publicBox">
         <header class="header clear"><span class="fl"></span>区块链合约详情</header>
         <section class="container clear">
-            <div class="verticalSlider fl">
-                <div>
-                    <ul>
-                        <li
-                            v-vertical-animate="{
-                                    index: index,
-                                    len: contractList.length,
-                                    distance: 140,
-                                    callback : toggleData,
-                                    id : i.CONTRACT_BUY_ID
-                                }"
-                            :class="{current : index === 0}"
-                            v-for="(i,index) in contractList">
-                            <h1><span>{{i.CONTRACT_BUY_ID}}</span></h1>
-                        </li>
-                    </ul>
-                    <h2></h2>
-                </div>
-                <b class="top_icon"></b>
-                <b class="bottom_icon"></b>
-            </div>
+            <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="contractList" :callback="toggleData"/>
             <div class="hasVerticalSliderContent fl">
                 <div class="top clear">
                     <div class="top_left fl">
@@ -100,14 +80,17 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import VerticalSlider from '~/component/verticalSlider'
+    import sliderImg from '~/assets/img/platform/blockChainMsg/sliderImg.png'
     import { contract_getContractList } from '~/api/apiFactory'
     import { contract_getContractData } from '~/api/apiFactory'
 
     export default {
         name: "contract",
-        components: {VuePerfectScrollbar},
+        components: {VuePerfectScrollbar,VerticalSlider},
         data() {
             return{
+                sliderImg: {background: 'url("'+ sliderImg +'") no-repeat center'},
                 contractList: null,
                 contractData: {},
                 id: null
@@ -116,8 +99,12 @@
         methods: {
             async getContractList() {
                 let data = await contract_getContractList();
-                this.contractList = data.data.data;
-                this.id = this.contractList[0].CONTRACT_BUY_ID;
+                this.contractList = [];
+                for(let i=0; i<data.data.data.length; i++){
+                    let currentData = data.data.data[i];
+                    this.contractList.push({id:currentData.CONTRACT_BUY_ID,name: currentData.CONTRACT_BUY_ID});
+                }
+                this.id = this.contractList[0].id;
                 this.getContractData();
             },
             async getContractData() {
@@ -138,73 +125,6 @@
 <style lang="scss" scoped>
     .contract{
         height: 920px;
-        .verticalSlider {
-            position: relative;
-            padding: 45px 0;
-            b {
-                position: absolute;
-                left: 0;
-                right: 0;
-                margin: auto;
-                width: 48px;
-                height: 24px;
-            }
-            .top_icon {
-                background: url('../../assets/img/platform/component/top.png') no-repeat center;
-                top: 20px;
-            }
-            .bottom_icon {
-                background: url('../../assets/img/platform/component/bottom.png') no-repeat center;
-                bottom: 20px;
-            }
-            div{
-                width: 140px;
-                height: 700px;
-                position: relative;
-                overflow: hidden;
-                ul{
-                    position: absolute;
-                    width: 140px;
-                    z-index: 11;
-                    top: 0;
-                    li {
-                        width: 100px;
-                        height: 100px;
-                        position: relative;
-                        padding: 20px;
-                        background: url('../../assets/img/platform/blockChainMsg/sliderImg.png') no-repeat center;
-                        h1{
-                            width: 96px;
-                            height: 96px;
-                            background-color: rgba(74,107,186,.8);
-                            cursor: pointer;
-                            color: #fff;
-                            padding: 2px;
-                            font-size: 14px;
-                            text-align: center;
-                            display: none;
-                        }
-                    }
-                    li:hover,li.current{
-                        background-color: #f0f3fa!important;
-                        h1{
-                            display: block;
-                        }
-                    }
-                }
-                h2 {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                    width: 16px;
-                    height: 700px;
-                    background: url('../../assets/img/platform/component/chain.png') no-repeat center;
-                    z-index: 10;
-                }
-            }
-        }
         .hasVerticalSliderContent{
             padding: 30px;
             height: calc(100% - 60px);

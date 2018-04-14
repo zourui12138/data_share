@@ -1,19 +1,9 @@
 <template>
     <div id="verticalSlider">
         <div>
-            <ul>
-                <li
-                    v-vertical-animate="{
-                        index: index,
-                        len: sliderData.length,
-                        distance: 140,
-                        callback : callback,
-                        id : i.ID
-                    }"
-                    :style="sliderImg"
-                    :class="{current : index === 0}"
-                    v-for="(i,index) in sliderData">
-                    <h1><span>{{i.DATA_NAME}}</span></h1>
+            <ul ref="elem">
+                <li :style="sliderImg" :class="{current : index === currentIndex}" v-for="(i,index) in sliderData">
+                    <h1 @click="toggleCurrent(index)"><span>{{i.name}}</span></h1>
                 </li>
             </ul>
             <h2></h2>
@@ -26,7 +16,48 @@
 <script>
     export default {
         name: "vertical-slider",
-        props: ['sliderImg','sliderData','callback']
+        props: ['sliderImg','sliderData','callback'],
+        data() {
+            return{
+                timer: null,
+                isAnimate: false,
+                currentIndex: 0
+            }
+        },
+        computed: {
+            dataTotal() {return this.sliderData && this.sliderData.length;}
+        },
+        methods: {
+            move() {
+                this.callback(this.sliderData[this.currentIndex].id);
+                let step;
+                this.isAnimate = true;
+                if(this.currentIndex - 2 > 0){
+                    step = this.currentIndex - 2;
+                    this.currentIndex + 2 >= this.dataTotal && (step = this.dataTotal - 4);
+                }else{
+                    step = 0;
+                }
+                $(this.$refs.elem).animate({top : -(140*step) +'px'},'fast',() => {this.isAnimate = false;});
+            },
+            autoAnimate() {
+                this.timer = setInterval(() => {
+                    this.currentIndex++;
+                    this.move();
+                },2500);
+            },
+            toggleCurrent(index) {
+                if(!this.isAnimate){
+                    this.timer && clearInterval(this.timer);
+                    this.currentIndex = index;
+                    this.move();
+                    this.autoAnimate();
+                }
+            }
+        },
+        mounted() {
+            this.autoAnimate();
+        }
     }
 </script>
 

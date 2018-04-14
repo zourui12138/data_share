@@ -39,9 +39,11 @@
         <div class="right fr">
             <div class="top publicBox">
                 <header class="header clear"><span class="fl"></span>数据备份Top10</header>
+                <section class="bar" ref="bar"></section>
             </div>
             <div class="bottom publicBox">
                 <header class="header clear"><span class="fl"></span>数据上传/下载走势</header>
+                <section class="line" ref="line"></section>
             </div>
         </div>
     </div>
@@ -137,12 +139,120 @@
                 this.apiDataPage = 1;
                 this.getFileList();
                 this.getApiList();
+            },
+            bar() {
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(this.$refs.bar);
+                // 图表配置项
+                let option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['数据集', 'API'],
+                        top : 20,
+                        right : 20
+                    },
+                    grid: {
+                        left: 20,
+                        right: 30,
+                        bottom: 20,
+                        containLabel: true,
+                        show : false
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01],
+                        splitLine : {
+                            show : false
+                        }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: ['贵阳市统计局','贵阳市交通委','贵阳市生态委','贵阳市人社局','贵阳市公安交管局','贵阳市卫生委', '贵阳市商务局', '贵阳市农委', '贵阳市安监局', '贵阳市教育局']
+                    },
+                    color : ['#64baff','#FB6360'],
+                    series: [
+                        {
+                            name: '数据集',
+                            type: 'bar',
+                            stack : 'a',
+                            barWidth : 16,
+                            data: [27,30,32,37,43,50,82,90,124,201]
+                        },
+                        {
+                            name: 'API',
+                            type: 'bar',
+                            stack : 'a',
+                            barWidth : 16,
+                            data: [4,4,5,5,5,6,7,10,10,13]
+                        }
+                    ]
+                };
+                // 绘制图表
+                myChart.setOption(option);
+            },
+            line() {
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(this.$refs.line);
+                // 图表配置项
+                let option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['下载量','上传量'],
+                        top : 20,
+                        right : 20
+                    },
+                    grid: {
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
+                        containLabel: true,
+                        show : false
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} GB'
+                        },
+                        splitLine : {
+                            show : false
+                        }
+                    },
+                    color : ['#3ad296', '#64baff'],
+                    series: [
+                        {
+                            name:'下载量',
+                            type:'line',
+                            data:[11, 11, 15, 13, 12, 13, 10]
+                        },
+                        {
+                            name:'上传量',
+                            type:'line',
+                            data:[21, 5, 9, 23, 30, 23, 19]
+                        }
+                    ]
+                };
+                // 绘制图表
+                myChart.setOption(option);
             }
         },
         mounted() {
             this.getDataList();
             this.getBarData();
             this.getLineData();
+            this.bar();
+            this.line();
         }
     }
 </script>
@@ -296,9 +406,15 @@
         .top {
             height: 445px;
             margin-bottom: 30px;
+            .bar{
+                height: 365px;
+            }
         }
         .bottom {
             height: 445px;
+            .line{
+                height: 365px;
+            }
         }
     }
 </style>
