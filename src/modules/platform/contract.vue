@@ -1,6 +1,6 @@
 <template>
     <div class="contract publicBox">
-        <header class="header clear"><span class="fl"></span>区块链合约详情</header>
+        <header class="header clear"><span class="fl">约</span>区块链合约详情</header>
         <section class="container clear">
             <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="contractList" :callback="toggleData" @listenChildEvent="getContractList"/>
             <div class="hasVerticalSliderContent fl">

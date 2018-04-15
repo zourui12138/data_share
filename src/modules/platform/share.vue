@@ -1,7 +1,7 @@
 <template>
     <div class="clear">
         <div class="left fl publicBox">
-            <header class="header clear"><span class="fl"></span>原始数据备份</header>
+            <header class="header clear"><span class="fl">备</span>原始数据备份</header>
             <section class="container">
                 <div class="slider">
                     <div>
@@ -28,7 +28,7 @@
         </div>
         <div class="right fr">
             <div class="top publicBox">
-                <header class="header clear"><span class="fl"></span>数据备份Top10</header>
+                <header class="header clear"><span class="fl">备</span>数据备份Top10</header>
                 <section class="bar" ref="bar"></section>
             </div>
             <div class="bottom publicBox">
@@ -134,15 +134,17 @@
                     this.getFileList();
                     this.getApiList();
                     this.currentIndex = index;
-                    let step;
-                    this.isAnimate = true;
-                    if(this.currentIndex - 3 > 0){
-                        step = this.currentIndex - 3;
-                        this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
-                    }else{
-                        step = 0;
+                    if(this.dataTotalIndex > 6){
+                        let step;
+                        this.isAnimate = true;
+                        if(this.currentIndex - 3 > 0){
+                            step = this.currentIndex - 3;
+                            this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
+                        }else{
+                            step = 0;
+                        }
+                        $(this.$refs.elem).animate({left : -(130*step) +'px'},'fast',() => {this.isAnimate = false;});
                     }
-                    $(this.$refs.elem).animate({left : -(130*step) +'px'},'fast',() => {this.isAnimate = false;});
                 }
             },
             nextToggleCurrent() {

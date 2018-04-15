@@ -1,7 +1,7 @@
 <template>
     <div class="clear">
         <div class="left fl publicBox">
-            <header class="header clear"><span class="fl"></span>区块链详情</header>
+            <header class="header clear"><span class="fl">块</span>区块链详情</header>
             <section class="container clear">
                 <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="block" :callback="toggleData" @listenChildEvent="getBlock"/>
                 <div class="hasVerticalSliderContent fl">
@@ -74,7 +74,7 @@
             </section>
         </div>
         <div class="right fr publicBox">
-            <header class="header clear"><span class="fl"></span>近期共享数据的贡献值</header>
+            <header class="header clear"><span class="fl">共</span>近期共享数据的贡献值</header>
             <h1 class="clear"><span class="fl">数据集</span><b class="fr">贡献值</b></h1>
             <h2 class="clear" v-for="i in shareData"><span class="fl">{{i.DATA_NAME}}</span><b class="fr">{{i.CONTRIBUTION_VALUE}}</b></h2>
         </div>

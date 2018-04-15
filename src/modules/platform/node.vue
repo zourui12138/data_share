@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="right fr publicBox">
-            <header class="header clear"><span class="fl"></span>区块同步态势</header>
+            <header class="header clear"><span class="fl">块</span>区块同步态势</header>
             <div class="chart" ref="chart"></div>
             <div class="title"><h1>当前记账节点</h1><p>{{JZNode.NODE_ID}}</p></div>
         </div>

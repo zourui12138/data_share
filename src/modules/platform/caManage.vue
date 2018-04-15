@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top publicBox">
-            <header class="header clear"><span class="fl"></span>密钥管理</header>
+            <header class="header clear"><span class="fl">密</span>密钥管理</header>
             <ul class="clear">
                 <li class="fl" v-for="i in dataKeyList" :class="{current : i.USE_TYPE === '1'}">
                     <div><span>{{i.DATA_KEY_NAME}}</span><button type="button" @click="updateKey(i.ID)">使用</button></div>
@@ -9,7 +9,7 @@
             </ul>
         </div>
         <div class="bottom publicBox">
-            <header class="header clear"><span class="fl"></span>CA管理</header>
+            <header class="header clear"><span class="fl">CA</span>CA管理</header>
             <div class="wait">
                 <h1>等待认证队列<button class="fr" type="button" @click="nextUnApprove">&gt;</button><button class="fr" type="button" @click="prevUnApprove">&lt;</button></h1>
                 <ul class="clear">

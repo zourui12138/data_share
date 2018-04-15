@@ -1,6 +1,6 @@
 <template>
     <div class="userManage publicBox">
-        <header class="header clear"><span class="fl"></span>区块链帐户详情</header>
+        <header class="header clear"><span class="fl">块</span>区块链帐户详情</header>
         <section class="container clear">
             <VerticalSlider class="fl" :sliderImg="sliderImg" :sliderData="userList" :callback="toggleData" @listenChildEvent="getUserList"/>
             <div class="hasVerticalSliderContent fl">

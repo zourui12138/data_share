@@ -1,6 +1,6 @@
 <template>
     <div class="content publicBox">
-        <header class="header clear"><span class="fl"></span>违约详情</header>
+        <header class="header clear"><span class="fl">违</span>违约详情</header>
         <div class="top">
             <div>
                 <ul class="clear" ref="elem" :style="containerWidth">
@@ -95,15 +95,17 @@
                     this.getCountData();
                     this.getEvents();
                     this.currentIndex = index;
-                    let step;
-                    this.isAnimate = true;
-                    if(this.currentIndex - 3 > 0){
-                        step = this.currentIndex - 3;
-                        this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
-                    }else{
-                        step = 0;
+                    if(this.dataTotalIndex > 6){
+                        let step;
+                        this.isAnimate = true;
+                        if(this.currentIndex - 3 > 0){
+                            step = this.currentIndex - 3;
+                            this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
+                        }else{
+                            step = 0;
+                        }
+                        $(this.$refs.elem).animate({left : -(197*step) +'px'},'fast',() => {this.isAnimate = false;});
                     }
-                    $(this.$refs.elem).animate({left : -(197*step) +'px'},'fast',() => {this.isAnimate = false;});
                 }
             },
             nextToggleCurrent() {

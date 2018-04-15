@@ -42,7 +42,7 @@
                 });
             },
             autoAnimate(dataTotalIndex) {
-                this.dataTotalIndex = dataTotalIndex;
+                dataTotalIndex && (this.dataTotalIndex = dataTotalIndex);
                 if(this.dataTotalIndex > 4){
                     this.timer = setInterval(() => {
                         this.currentIndex >= this.dataTotalIndex ? this.currentIndex = 0 :  this.currentIndex++;
@@ -54,7 +54,7 @@
                 if(!this.isAnimate){
                     this.timer && clearInterval(this.timer);
                     this.currentIndex = index;
-                    this.move(this.autoAnimate);
+                    this.dataTotalIndex > 4 && this.move(this.autoAnimate);
                 }
             },
             nextToggleCurrent() {

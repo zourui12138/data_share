@@ -2,7 +2,7 @@
     <div class="clear">
         <div class="left fl publicBox">
             <header class="header clear">
-                <span class="fl"></span>区块数据
+                <span class="fl">块</span>区块数据
                 <div class="fr">
                     <input type="text" placeholder="请输入查询信息" v-model="newKeywords"><button type="button" @click="addKeywords(newKeywords)">查询</button>
                 </div>
@@ -140,15 +140,17 @@
                     this.buyPage = 1;
                     this.getSellUser();
                     this.getBuyUser();
-                    let step;
-                    this.isAnimate = true;
-                    if(this.currentIndex - 3 > 0){
-                        step = this.currentIndex - 3;
-                        this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
-                    }else{
-                        step = 0;
+                    if(this.dataTotalIndex > 6){
+                        let step;
+                        this.isAnimate = true;
+                        if(this.currentIndex - 3 > 0){
+                            step = this.currentIndex - 3;
+                            this.currentIndex + 3 >= this.dataTotalIndex && (step = this.dataTotalIndex - 6);
+                        }else{
+                            step = 0;
+                        }
+                        $(this.$refs.elem).animate({left : -(140*step) +'px'},'fast',() => {this.isAnimate = false;});
                     }
-                    $(this.$refs.elem).animate({left : -(140*step) +'px'},'fast',() => {this.isAnimate = false;});
                 }
             },
             nextToggleCurrent() {
