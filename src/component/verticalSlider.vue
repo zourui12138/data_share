@@ -22,7 +22,7 @@
                 timer: null,
                 isAnimate: false,
                 currentIndex: 0,
-                dataTotalIndex: null
+                dataTotalIndex: null,
             }
         },
         methods: {

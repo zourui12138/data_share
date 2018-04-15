@@ -121,7 +121,7 @@
                     this.block.push({id:currentData.ID,name: currentData.DATA_NAME});
                 }
                 // 触发轮播动画
-                autoAnimate(data.data.total);
+                autoAnimate(this.block.length-1);
                 this.id = this.block[0].id;
                 this.getBlockData();
             },

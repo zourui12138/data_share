@@ -94,7 +94,7 @@
                     this.userList.push({id:currentData.ID,name: currentData.USERNAME});
                 }
                 // 触发轮播动画
-                autoAnimate(data.data.total);
+                autoAnimate(this.userList.length-1);
                 this.id = this.userList[0].id;
                 this.getUserData();
                 this.getErrorData();

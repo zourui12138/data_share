@@ -105,7 +105,7 @@
                     this.contractList.push({id:currentData.CONTRACT_BUY_ID,name: currentData.CONTRACT_BUY_ID});
                 }
                 // 触发轮播动画
-                autoAnimate(data.data.total);
+                autoAnimate(this.contractList.length-1);
                 this.id = this.contractList[0].id;
                 this.getContractData();
             },
