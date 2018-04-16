@@ -17,8 +17,8 @@
                                 <i class="fl"></i>
                                 <i class="fl"></i>
                                 <i class="fl"></i>
-                                <s class="fl"></s>
-                                <s class="fl"></s>
+                                <i class="fl"></i>
+                                <i class="fl"></i>
                             </div>
                             <h2>5.0分</h2>
                         </li>

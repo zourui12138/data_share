@@ -32,7 +32,7 @@
                 <section class="bar" ref="bar"></section>
             </div>
             <div class="bottom publicBox">
-                <header class="header clear"><span class="fl"></span>数据上传/下载走势</header>
+                <header class="header clear"><span class="fl">数</span>数据上传/下载走势</header>
                 <section class="line" ref="line"></section>
             </div>
         </div>

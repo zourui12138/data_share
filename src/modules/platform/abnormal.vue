@@ -170,7 +170,7 @@
                             vertical-align: top;
                         }
                         p{
-                            margin-top: 134px;
+                            margin-top: 125px;
                             width: calc(100%);
                             line-height: 30px;
                             text-align: center;

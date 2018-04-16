@@ -127,12 +127,12 @@
                         itemHeight : 33,
                         data:[
                             {name : '顶级授信中心服务器' , textStyle : {color : '#fa151f'}},
-                            {name : '骨干区块记账服务器' , textStyle : {color : '#ff827f'}},
+                            {name : '骨干区块记账服务器' , textStyle : {color : '#FB8860'}},
                             {name : '国内IDC普通服务器' , textStyle : {color : '#f5935b'}},
-                            {name : '中小型企业记账服务器' , textStyle : {color : '#5d20cf'}},
-                            {name : '企业区块链联盟记账服务器' , textStyle : {color : '#01a8de'}},
-                            {name : '家用/民用志愿服务区' , textStyle : {color : '#c851ea'}},
-                            {name : '主备份区块链服务器' , textStyle : {color : '#2186ed'} , left : 50}
+                            {name : '中小型企业记账服务器' , textStyle : {color : '#1FCF89'}},
+                            {name : '企业区块链联盟记账服务器' , textStyle : {color : '#4360FF'}},
+                            {name : '家用/民用志愿服务区' , textStyle : {color : '#64BAFF'}},
+                            {name : '主备份区块链服务器' , textStyle : {color : '#7330CE'} , left : 50}
                         ],
                         textStyle: {
                             fontSize : 14
