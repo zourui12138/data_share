@@ -68,7 +68,7 @@
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import VerticalSlider from '~/component/verticalSlider'
-    import sliderImg from '~/assets/img/platform/blockChainMsg/sliderImg.png'
+    import sliderImg from '~/assets/img/platform/userManage/sliderImg.png'
     import { userManage_getUserList } from '~/api/apiFactory'
     import { userManage_getUserData } from '~/api/apiFactory'
     import { userManage_getErrorData } from '~/api/apiFactory'

@@ -81,7 +81,7 @@
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import VerticalSlider from '~/component/verticalSlider'
-    import sliderImg from '~/assets/img/platform/blockChainMsg/sliderImg.png'
+    import sliderImg from '~/assets/img/platform/contract/sliderImg.png'
     import { contract_getContractList } from '~/api/apiFactory'
     import { contract_getContractData } from '~/api/apiFactory'
 
