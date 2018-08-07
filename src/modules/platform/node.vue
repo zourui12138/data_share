@@ -380,6 +380,7 @@
             async getJZNode() {
                 let data = await node_getJZNode();
                 this.JZNode = data.data.data[0];
+                console.log(this.JZNode);
                 this.getAllNode();
             },
             async getAllNode() {
